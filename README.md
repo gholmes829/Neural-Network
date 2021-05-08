@@ -1,4 +1,4 @@
 # Neural-Network
 Neural network made completely from scratch in Python!
 
-<img width="720" alt="tanh_1_boundary" src="https://user-images.githubusercontent.com/60802511/117533343-df93a700-afb1-11eb-95ec-8a2a577ad7da.png">
+<img width="341" alt="sigmoid_2_boundary" src="https://user-images.githubusercontent.com/60802511/117533376-1c5f9e00-afb2-11eb-8ed5-be6383cc2422.png">
