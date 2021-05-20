@@ -111,15 +111,15 @@ class NeuralNetwork:
 		costs.append(self.cost(labels, self.evaluate(trainingSet)))
 
 		cost = self.cost(labels, self.evaluate(trainingSet))
-		dc = threshold+1
+		dc = threshold + 1
 
 		if output and iterations:
 			print("Progress: 0.0%", end=" ", flush=True)
 
 		i = 0
 		while (not iterations or i < iterations) and (not threshold or dc > threshold):
-			if output and (iterations and (i+1) % int(iterations / 10) == 0):
-				print(round((100 * (i+1)) / iterations, 2), end="% ", flush=True)
+			if output and (iterations and (i + 1) % int(iterations / 10) == 0):
+				print(round((100 * (i + 1)) / iterations, 2), end="% ", flush=True)
 			
 			weightGradient, biasGradient = self.backpropogate(trainingSet, labels)
 			self.weights = [self.weights[i] - alpha * weightGradient[i] for i in range(len(self.weights))]
@@ -149,7 +149,7 @@ class NeuralNetwork:
 			if np.all(result==labels[i]):
 				correct += 1
 		
-		return (100*correct)/testingSet.shape[0]
+		return (100 * correct) / testingSet.shape[0]
 
 	def backpropogate(self, trainingSet: np.ndarray, labels: np.ndarray) -> None:
 		"""
@@ -174,8 +174,8 @@ class NeuralNetwork:
 			
 		outputDelta = self.costGradient(labels, activations[-1]) * self.outputActivationGradient(rawNeurons[-1])
 		deltas.append(outputDelta)
-		for i in range(len(self.layerSizes)-2):
-			delta = (deltas[i] @ self.weights[-i-1]) * self.activationGradient(rawNeurons[-i-2])
+		for i in range(len(self.layerSizes) - 2):
+			delta = (deltas[i] @ self.weights[-i - 1]) * self.activationGradient(rawNeurons[-i - 2])
 			deltas.append(delta)
 
 		deltas.reverse()
@@ -184,8 +184,8 @@ class NeuralNetwork:
 		biasGradient = []
 
 		for i in range(len(self.layerSizes)-1):
-			weightGradient.append((1/m)*deltas[i].T @ activations[i])
-			biasGradient.append((1/m)*deltas[i].T @ np.ones(m))
+			weightGradient.append((1 / m) * deltas[i].T @ activations[i])
+			biasGradient.append((1 / m) * deltas[i].T @ np.ones(m))
 
 		# UNCOMMENT TO CHECK GRADIENT OF NETWORK USED IN DIGIT RECOGNITION  WHEN RUNNING DIGIT RECOGNITION
 		#dW1, dB1 = weightGradient[-1][5, 3], biasGradient[-1][2]
@@ -239,7 +239,7 @@ class NeuralNetwork:
 	def mse(labels: np.ndarray, predictions: np.ndarray) -> any:
 		"""Mean squared error."""
 		m = labels.shape[0]
-		return (1/(2*m)) * np.sum(np.square(labels - predictions))
+		return (1 / (2 * m)) * np.sum(np.square(labels - predictions))
 
 	@staticmethod
 	def mseGradient(labels: np.ndarray, predictions: np.ndarray) -> any:
@@ -251,13 +251,13 @@ class NeuralNetwork:
 	def crossEntropy(labels: np.ndarray, predictions: np.ndarray) -> any:
 		"""Cross entropy for classification error."""
 		m = labels.shape[0]
-		return -(1/m) * np.sum(labels*np.log(predictions) + (1-labels)*np.log(1-predictions))
+		return -(1 / m) * np.sum(labels * np.log(predictions) + (1 - labels) * np.log(1 - predictions))
 
 	@staticmethod
 	def crossEntropyGradient(labels: np.ndarray, predictions: np.ndarray) -> any:
 		"""Cross entropy gradient."""		
 		m = labels.shape[0]
-		return -((labels/predictions) - ((1-labels)/(1-predictions)))
+		return -((labels / predictions) - ((1 - labels) / (1 - predictions)))
 
 	# ACTIVATIONS
 	@staticmethod
@@ -268,7 +268,7 @@ class NeuralNetwork:
 	@staticmethod
 	def sigmoidGradient(z: any) -> any:
 		"""Sigmoid derivative."""
-		return NeuralNetwork.sigmoid(z)*(1-NeuralNetwork.sigmoid(z))
+		return NeuralNetwork.sigmoid(z) * (1 - NeuralNetwork.sigmoid(z))
 
 	@staticmethod
 	def reLu(x: any) -> any:
@@ -278,17 +278,17 @@ class NeuralNetwork:
 	@staticmethod
 	def reLuGradient(x: any) -> any:
 		"""reLu derivative."""
-		return np.where(x>0, x, x * 0.01)
+		return np.where(x > 0, x, x * 0.01)
 
 	@staticmethod
 	def tanh(x: any) -> any:
 		"""Hyperbolic tangent."""
-		return (np.exp(x)-np.exp(-x))/(np.exp(x)+np.exp(-x))
+		return (np.exp(x) - np.exp(-x)) / (np.exp(x) + np.exp(-x))
 
 	@staticmethod
 	def tanhGradient(x):
 		"""Hyperbolic tangent gradient."""
-		return 1 - (NeuralNetwork.tanh(x)**2)
+		return 1 - (NeuralNetwork.tanh(x) ** 2)
 
 	@staticmethod
 	def linear(x: any) -> any:
